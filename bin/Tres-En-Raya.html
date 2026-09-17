@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+
+    #pa{
+
+        background-color: rgb(0, 0, 0);
+    }
+
+#Tablero{
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+
+    gap:5px;
+
+}
+
+.Cuadro{
+
+background-color: rgb(77, 80, 80);
+color: aliceblue;
+text-align:  center;
+
+}
+
+</style>
+
+    <title>Document</title>
+</head>
+<body id = "pa">
+
+    
+
+    <div id = "Tablero">
+    <div id = "0" class = "Cuadro" onclick="picar(this);"></div>
+    <div id = "1" class = "Cuadro" onclick="picar(this);"></div>
+    <div id = "2"class = "Cuadro" onclick="picar(this);"></div>
+    <div id = "3" class = "Cuadro" onclick="picar(this);"></div>
+    <div id = "4" class = "Cuadro" onclick="picar(this);"></div>
+    <div id = "5" class = "Cuadro" onclick="picar(this);"></div>
+    <div id = "6"class = "Cuadro" onclick="picar(this);"></div>
+    <div id = "7" class = "Cuadro" onclick="picar(this);"></div>
+    <div id = "8" class = "Cuadro" onclick="picar(this);"></div>
+    </div>
+
+    <script>
+
+        let Tablero = [[0,0,0], [0,0,0],[0,0,0]];
+        let enJuego = true; //Se esta jugando - false : termino
+        let turno = true; //true = x ,, false = 0
+
+        function picar(objeto) {
+            if (enJuego === false) {
+                alert("Juego terminado");
+                return;
+            }
+
+            let fila = Math.floor(Number.parseInt(objeto.id) / 3);
+            let columnas = Math.floor(Number.parseInt(objeto.id) % 3);
+
+            if (Tablero[fila][columnas] !== 0) {
+                alert("La casilla esta ocupada");
+                return;
+            }
+
+            if (turno === true) {
+                document.getElementById(objeto.id).innerHTML = "X";
+                Tablero[fila][columnas] = 1;
+            } else {
+                document.getElementById(objeto.id).innerHTML = "O";
+                Tablero[fila][columnas] = 2;
+            }
+
+            if (hayGanador()) {
+                enJuego = false;
+                alert("Ganaste pa");
+                return;
+            }
+
+            if (hayEmpate()) {
+                enJuego = false;
+                alert("Empate");
+                return;
+            }
+
+            turno = !turno;
+            console.log(Tablero);
+        }
+
+        function hayGanador() {
+            for (let i = 0; i < 3; i++) {
+                if (Tablero[i][0] !== 0 &&
+                    Tablero[i][0] === Tablero[i][1] &&
+                    Tablero[i][1] === Tablero[i][2]) {
+                    return true;
+                }
+            }
+
+            for (let j = 0; j < 3; j++) {
+                if (Tablero[0][j] !== 0 &&
+                    Tablero[0][j] === Tablero[1][j] &&
+                    Tablero[1][j] === Tablero[2][j]) {
+                    return true;
+                }
+            }
+
+            if (Tablero[0][0] !== 0 &&
+                Tablero[0][0] === Tablero[1][1] &&
+                Tablero[1][1] === Tablero[2][2]) {
+                return true;
+            }
+
+            if (Tablero[0][2] !== 0 &&
+                Tablero[0][2] === Tablero[1][1] &&
+                Tablero[1][1] === Tablero[2][0]) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function hayEmpate() {
+            if (hayGanador()) {
+                return false;
+            }
+
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (Tablero[i][j] === 0) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+    </script>
+    
+</body>
+</html>
